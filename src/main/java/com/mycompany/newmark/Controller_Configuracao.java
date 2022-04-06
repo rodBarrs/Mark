@@ -14,8 +14,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,8 +23,6 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.sun.glass.events.KeyEvent;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,11 +37,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class Controller_Configuracao implements Initializable {
 
@@ -80,7 +72,7 @@ public class Controller_Configuracao implements Initializable {
 			salvarEspecifica, voltarEspecifica, voltarContador, botaoBuscaProvidencia;
 	@FXML
 	RadioButton verificaData, triarAntigo, tipoCOM, tipoDOC, tipoMOV, html, pdf, desativadoPericial, ativadoPericial,
-			desativadoPeticaoInicial, ativadoPeticaoInicial, P1, P2, P3, P4;
+			triagemPadraoSeletor, peticaoInicialSeletor, pastasSeletor, P1, P2, P3, P4;
 	@FXML
 	private JFXComboBox<String> comboBoxNucleo;
 	final ToggleGroup grupoTriarAntigo = new ToggleGroup();
@@ -125,15 +117,26 @@ public class Controller_Configuracao implements Initializable {
 			tipoMOV.setSelected(true);
 			break;
 		}
+
 		if (configuracao.isLaudoPericial()) {
 			ativadoPericial.setSelected(true);
 		} else {
 			desativadoPericial.setSelected(true);
 		}
 		if (configuracao.isPeticaoInicial()) {
-			ativadoPeticaoInicial.setSelected(true);
-		} else {
-			desativadoPeticaoInicial.setSelected(true);
+			peticaoInicialSeletor.setSelected(true);
+			triagemPadraoSeletor.setSelected(false);
+			pastasSeletor.setSelected(false);
+		}
+		if (configuracao.isTriagemPadrao()) {
+			triagemPadraoSeletor.setSelected(true);
+			peticaoInicialSeletor.setSelected(false);
+			pastasSeletor.setSelected(false);
+		}
+		if (configuracao.isTriagemPastas()) {
+			pastasSeletor.setSelected(true);
+			triagemPadraoSeletor.setSelected(false);
+			peticaoInicialSeletor.setSelected(false);
 		}
 		contadores();
 	}
@@ -196,9 +199,12 @@ public class Controller_Configuracao implements Initializable {
 	}
 
 	public void salvarEspecificas(ActionEvent event) {
-		boolean pericial;
-		boolean peticao;
+		boolean pericial = false;
+		boolean peticao = false;
+		boolean padrao = false;
+		boolean pastas = false;
 		Banco banco = new Banco();
+
 
 		if (ativadoPericial.isSelected()) {
 			// Irá realiziar a busca pelo laudo pericial na movimentação
@@ -208,19 +214,28 @@ public class Controller_Configuracao implements Initializable {
 			pericial = false;
 		}
 
-		if (ativadoPeticaoInicial.isSelected()) {
+		if (peticaoInicialSeletor.isSelected()) {
 			peticao = true;
-		} else {
+			padrao = false;
+			pastas = false;
+		} else if (triagemPadraoSeletor.isSelected()) {
+			padrao = true;
 			peticao = false;
+			pastas = false;
+		} else if (pastasSeletor.isSelected()) {
+			pastas = true;
+			peticao = false;
+			padrao = false;
 		}
+
 
 		Aviso aviso = new Aviso();
 		String textoAviso = "";
-		if (ativadoPericial.isSelected() && ativadoPeticaoInicial.isSelected()) {
+		if (ativadoPericial.isSelected() && peticaoInicialSeletor.isSelected()) {
 			textoAviso = "Não é possivel realizar dois modos de pesquisa específicos simultaneamente, ative apenas uma opção!";
 			aviso.aviso(textoAviso);
 		} else {
-			banco.salvarEspecificas(pericial, peticao);
+			banco.salvarEspecificas(pericial, peticao, padrao, pastas);
 			textoAviso = "Configuração salva com sucesso!";
 			aviso.aviso(textoAviso);
 		}

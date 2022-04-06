@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <JFXTabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" stylesheets="@../styles/tabStyle.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.newmark.Controller_Configuracao">
    <tabs>
@@ -172,38 +173,45 @@
                         </RadioButton>
                      </children>
                   </VBox>
-                  <VBox layoutX="480.0" layoutY="110.0" prefHeight="100.0" prefWidth="300.0" spacing="15.0" />
-                  <VBox layoutX="50.0" layoutY="300.0" prefHeight="65.0" prefWidth="234.0" spacing="15.0" />
+                  <VBox layoutX="480.0" layoutY="110.0" prefHeight="100.0" prefWidth="300.0" spacing="15.0">
+                     <children>
+                        <VBox prefHeight="65.0" prefWidth="150.0" spacing="15.0">
+                           <children>
+                              <RadioButton fx:id="triagemPadraoSeletor" mnemonicParsing="false" selected="true" text="Triagem Padrão" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="modoTriagem" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="peticaoInicialSeletor" mnemonicParsing="false" text="Petição Inicial" textFill="WHITE" toggleGroup="$modoTriagem">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </RadioButton>
+                              <RadioButton fx:id="pastasSeletor" mnemonicParsing="false" text="Triagem Pastas" textFill="WHITE" toggleGroup="$modoTriagem">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </RadioButton>
+                           </children>
+                        </VBox>
+                     </children></VBox>
                   <VBox layoutX="480.0" layoutY="300.0" prefHeight="65.0" prefWidth="234.0" spacing="15.0" />
                   <Line endX="-5.0" endY="376.0" layoutX="450.0" layoutY="22.0" opacity="0.3" startX="-5.0" stroke="WHITE" />
                   <Line endX="424.0" endY="181.0" layoutX="460.0" layoutY="39.0" opacity="0.5" startX="-438.0" startY="181.0" stroke="WHITE" />
-                  <Label alignment="TOP_LEFT" layoutX="465.0" layoutY="60.0" prefHeight="62.0" prefWidth="370.0" text="Com está opção ativada o Mark triará apenas na Peticição Inicial do processo aberto." textFill="WHITE" wrapText="true">
+                  <Label alignment="TOP_LEFT" layoutX="666.0" layoutY="57.0" prefHeight="62.0" prefWidth="370.0" textFill="WHITE" wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label layoutX="465.0" layoutY="30.0" text="Petição Inicial" textFill="WHITE">
+                  <Label layoutX="465.0" layoutY="30.0" text="Modo de Triagem" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <VBox layoutX="470.0" layoutY="128.0" prefHeight="65.0" prefWidth="150.0" spacing="15.0">
-                     <children>
-                        <RadioButton fx:id="desativadoPeticaoInicial" mnemonicParsing="false" selected="true" text="Desativado" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                           <toggleGroup>
-                              <ToggleGroup fx:id="grupoPericial1" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="ativadoPeticaoInicial" mnemonicParsing="false" text="Ativado" textFill="WHITE" toggleGroup="$grupoPericial1">
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </RadioButton>
-                     </children>
-                  </VBox>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                </children>
             </AnchorPane>
          </content>

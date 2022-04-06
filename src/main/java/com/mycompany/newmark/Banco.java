@@ -280,12 +280,12 @@ public class Banco {
 	}
 
 	//Altera o valor da unica linha da coluna LaudoPericial na tabela CONFIG para alterar o processo de Triagem
-	public void salvarEspecificas(boolean laudoPericial, boolean peticaoInicial) {
+	public void salvarEspecificas(boolean laudoPericial, boolean peticaoInicial, boolean triagemPadrao, boolean triagemPastas) {
 		try {
 			Connection connection = DriverManager.getConnection("jdbc:sqlite:BancoEtiquetasMark.db");
 			Statement comandoSql = connection.createStatement();
 			comandoSql.execute("UPDATE configuracao SET" + " LaudoPericial = '" + laudoPericial + "'   \n"
-					+ ", PeticaoInicial = '" + peticaoInicial + "' \n" + " WHERE id = 1997;");
+					+ ", PeticaoInicial = '" + peticaoInicial +  "'   \n" + ", triagemPadrao = '" + triagemPadrao +  "'   \n" + ", triagemPastas = '" + triagemPastas + "'   \n" + " WHERE id = 1997;");
 			//Desconecta com o banco de dados, garantindo assim a integridade do dados
 			connection.close();
 		} catch (SQLException erro) {
@@ -364,6 +364,8 @@ public class Banco {
 			boolean JuntManual;
 			boolean LaudoPericial;
 			boolean PeticaoInicial;
+			boolean triagemPadrao;
+			boolean triagemPastas;
 
 			Connection connection = DriverManager.getConnection("jdbc:sqlite:BancoEtiquetasMark.db");
 			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM configuracao WHERE id = 1997");
@@ -393,12 +395,27 @@ public class Banco {
 				} else {
 					PeticaoInicial = true;
 				}
+				String triagemPadraoString = resultadoBanco.getString("triagemPadrao");
+				if (triagemPadraoString.contains("false")) {
+					triagemPadrao = false;
+				} else {
+					triagemPadrao = true;
+				}
+
+				String triagemPastasString = resultadoBanco.getString("triagemPastas");
+				if (triagemPastasString.contains("false")) {
+					triagemPastas = false;
+				} else {
+					triagemPastas = true;
+				}
 
 				config.setIntervaloDias(TriarAntigo);
 				config.setTipoTriagem(TipoTriagemLocal);
 				config.setJuntManual(JuntManual);
 				config.setLaudoPericial(LaudoPericial);
 				config.setPeticaoInicial(PeticaoInicial);
+				config.setTriagemPadrao(triagemPadrao);
+				config.setTriagemPastas(triagemPastas);
 			}
 			connection.close();
 		} catch (Exception erro) {

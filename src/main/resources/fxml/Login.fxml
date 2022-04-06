@@ -24,7 +24,7 @@
       <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" styleClass="fundo" stylesheets="@../styles/tema.css">
          <children>
                
-            <JFXButton fx:id="btTriar" focusTraversable="false" layoutX="659.0" layoutY="359.0" onAction="#triar" prefHeight="27.0" prefWidth="170.0" ripplerFill="TRANSPARENT" style="-fx-background-color: #012840;" styleClass="botaoAzul" stylesheets="@../styles/botoes.css" text="Iniciar Triagenm">
+            <JFXButton fx:id="btTriar" focusTraversable="false" layoutX="659.0" layoutY="359.0" onAction="#triar" prefHeight="27.0" prefWidth="170.0" ripplerFill="TRANSPARENT" style="-fx-background-color: #012840;" styleClass="botaoAzul" stylesheets="@../styles/botoes.css" text="Iniciar Triagem">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

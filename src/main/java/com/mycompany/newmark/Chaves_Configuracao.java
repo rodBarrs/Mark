@@ -12,7 +12,24 @@ public class Chaves_Configuracao {
     private boolean JuntManual;
     private boolean LaudoPericial;
     private boolean PeticaoInicial;
+    private boolean triagemPadrao;
+    private boolean triagemPastas;
+
+    public void setTriagemPadrao(boolean triagemPadrao) {
+        this.triagemPadrao = triagemPadrao;
+    }
+
+    public boolean isTriagemPastas() {
+        return triagemPastas;
+    }
+
+    public void setTriagemPastas(boolean triagemPastas) {
+        this.triagemPastas = triagemPastas;
+    }
+
+
     private boolean debugpi = false;
+
         
     public Integer getIntervaloDias() {
         return intervaloDias;
@@ -53,6 +70,8 @@ public class Chaves_Configuracao {
     public void setPeticaoInicial(boolean PeticaoInicial) {
         this.PeticaoInicial = PeticaoInicial;
     }
+
+    public boolean isTriagemPadrao() {return triagemPadrao;};
     
     
 

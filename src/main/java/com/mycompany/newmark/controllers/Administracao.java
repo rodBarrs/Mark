@@ -2,7 +2,6 @@ package com.mycompany.newmark.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -11,14 +10,7 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import com.mycompany.newmark.Aviso;
-import com.mycompany.newmark.Banco;
-import com.mycompany.newmark.Chaves_Banco;
-import com.mycompany.newmark.Chaves_Condicao;
-import com.mycompany.newmark.Chaves_GrupoEtiquetas;
-import com.mycompany.newmark.Controller_TagEdicaoCondicao;
-import com.mycompany.newmark.Controller_TagEdicaoEtiqueta;
-import com.mycompany.newmark.Controller_TagEdicaoMateria;
+import com.mycompany.newmark.*;
 import com.mycompany.newmark.DAO.BancosDAO;
 import com.mycompany.newmark.DAO.EtiquetaDAO;
 import com.mycompany.newmark.DAO.IdentificadorMateriaDAO;
@@ -27,7 +19,6 @@ import com.mycompany.newmark.DAO.TipoMovimentacaoDAO;
 import com.mycompany.newmark.DAO.UsuarioLocalDAO;
 import com.mycompany.newmark.entities.UsuarioLocal;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -51,7 +42,7 @@ public class Administracao implements Initializable {
 	private JFXTextField identificadorEtiqueta, numeroEtiquetas, numeroTipoMovimentacao, numeroIdentificadorMateria,
 			numeroPeticaoInicial, pedido, complementoPedido, buscaIdentificadorMateriaID, buscaIdentificadorMateria,
 			identificadorPeticaoInicial, pesquisaIdentificador, pesquisaEtiqueta, pesquisaEtiquetaId, palavraChave,
-			complemento, etiqueta, buscaTipoMovimentacao, tipoMovimentacao, textoSigla, textoBanco, textoNomeUsuario,
+			complemento, etiqueta, buscaTipoMovimentacao, buscaPasta, nomePasta, tipoMovimentacao, textoSigla, textoBanco, textoNomeUsuario,
 			textoSenhaUsuarioVisivel;
 	@FXML
 	private JFXPasswordField textoSenhaUsuario;
@@ -62,7 +53,11 @@ public class Administracao implements Initializable {
 	@FXML
 	private TableView<Chaves_Banco> tabelaIdentificadorMateria, tabelaEtiquetas;
 	@FXML
-	private TableView<Chaves_Condicao> tabelaTipoMovimento, tabelaIdentificadorPeticao;
+	private TableView<Chaves_Condicao> tabelaTipoMovimento;
+	@FXML
+	private TableView<Chaves_Condicao> tabelaIdentificadorPeticao;
+	@FXML
+	private TableView<Chaves_Pasta_Condicao> tabelaPasta;
 	@FXML
 	private TableView<UsuarioLocal> tabelaUsuarios;
 	@FXML
@@ -74,8 +69,13 @@ public class Administracao implements Initializable {
 			etiquetaFraseChave, etiquetaComplemento, etiquetaEtiqueta, etiquetaPeso, etiquetaTipo,
 			identificadorMateriaEtiqueta;
 	@FXML
-	private TableColumn<Chaves_Condicao, String> colunaTipoMovimento, colunaIdentificadorPeticao,
-			colunaIdentificadorPeticaoInicial;
+	private TableColumn<Chaves_Condicao, String> colunaTipoMovimento;
+	@FXML
+	private TableColumn<Chaves_Pasta_Condicao, String> colunaPasta;
+	@FXML
+	private TableColumn<Chaves_Condicao, String> colunaIdentificadorPeticao;
+	@FXML
+	private TableColumn<Chaves_Condicao, String> colunaIdentificadorPeticaoInicial;
 	@FXML
 	private TableColumn<Chaves_GrupoEtiquetas, String> bancoSigla, bancoNome, bancoNumeroDeEtiquetas;
 	@FXML
@@ -162,6 +162,12 @@ public class Administracao implements Initializable {
 		tabelaTipoMovimento.setItems(tiposMovimentacao);
 		numeroTipoMovimentacao.setText(String.valueOf(tabelaTipoMovimento.getItems().size()));
 
+		// Inicializa a Tabela de Pastas
+		List<Chaves_Pasta_Condicao> listaPasta = new TipoMovimentacaoDAO().getTabelaPastas();
+		colunaPasta.setCellValueFactory(new PropertyValueFactory<Chaves_Pasta_Condicao, String>("nome"));
+		ObservableList<Chaves_Pasta_Condicao> tabelaPastas = FXCollections.observableArrayList(listaPasta);
+		tabelaPasta.setItems(tabelaPastas);
+		numeroTipoMovimentacao.setText(String.valueOf(tabelaTipoMovimento.getItems().size()));
 	}
 
 	public void inicializarBancoDeDados() {
@@ -587,6 +593,37 @@ public class Administracao implements Initializable {
 		stage.initStyle(StageStyle.UNDECORATED);
 		stage.setScene(new Scene(root));
 		stage.show();
+	}
+
+	/* Pasta */
+
+	public void buscaPasta() {
+		String textoBusca = buscaPasta.getText().toUpperCase();
+		if (textoBusca.isEmpty()) {
+			inicializarMenuTriagemPadrao();
+		} else {
+			List<Chaves_Pasta_Condicao> pastas = new TipoMovimentacaoDAO().buscarPasta(textoBusca);
+			colunaPasta.setCellValueFactory(new PropertyValueFactory<Chaves_Pasta_Condicao, String>("nome"));
+			ObservableList<Chaves_Pasta_Condicao> tabelaPastas = FXCollections.observableArrayList(pastas);
+			tabelaPasta.setItems(tabelaPastas);
+			numeroTipoMovimentacao.setText(String.valueOf(tabelaTipoMovimento.getItems().size()));
+		}
+	}
+
+	public void selecionarPasta() {
+		nomePasta.setText(tabelaPasta.getSelectionModel().getSelectedItem().getNome());
+	}
+
+	public void excluirPasta() {
+		String texto = tabelaPasta.getSelectionModel().getSelectedItem().getNome();
+		new TipoMovimentacaoDAO().removerPasta(texto);
+		inicializarMenuTriagemPadrao();
+	}
+
+	public void inserirPasta() {
+		String texto = nomePasta.getText().toUpperCase();
+		new TipoMovimentacaoDAO().inserirPasta(texto);
+		inicializarMenuTriagemPadrao();
 	}
 
 	/* Bancos de Dados */

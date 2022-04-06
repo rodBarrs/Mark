@@ -10,7 +10,7 @@ public class LeituraPDF {
 	File filePath = new File("C:\\Temp");
 	public Boolean PDFBaixado() throws InterruptedException {
 		for (int i = 0; i < 5; i++) {
-			Thread.sleep(2000);
+			Thread.sleep(4000);
 			if (filePath.listFiles().length == 1) {
 				for (File pdfNome : filePath.listFiles()) {
 					if(pdfNome.getName().contains(".pdf")) {

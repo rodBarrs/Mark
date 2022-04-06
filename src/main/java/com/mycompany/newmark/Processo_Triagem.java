@@ -13,8 +13,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -51,6 +49,7 @@ public class Processo_Triagem {
 		Processo_Grid processo_grid = new Processo_Grid(resultado.getDriver());
 		Processo_Movimentacao movimentacao = new Processo_Movimentacao();
 		Processo_Documento documento = new Processo_Documento();
+		TriagemPasta triagemPasta = new TriagemPasta();
 		Processo_Pericial pericial = new Processo_Pericial();
 		Processo_PeticaoInicial peticao = new Processo_PeticaoInicial();
 		Processo_Etiquetar etiqueta = new Processo_Etiquetar();
@@ -68,7 +67,10 @@ public class Processo_Triagem {
 						resultado = pericial.pericial(resultado.getDriver(), wait, bancos);
 					} else if (config.isPeticaoInicial() == true) {
 						resultado = peticao.peticaoInicial(resultado.getDriver(), wait, config, bancos, debugPi);
-					} else {
+					} else if (config.isTriagemPastas()) {
+						resultado = triagemPasta.documentoPasta(resultado.getDriver(), wait, config, bancos);
+					}
+					else {
 						switch (config.getTipoTriagem()) {
 						case "COM":
 							resultado = movimentacao.movimentacao(resultado.getDriver(), wait, config, bancos);

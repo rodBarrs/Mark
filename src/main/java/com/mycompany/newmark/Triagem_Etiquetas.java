@@ -1,14 +1,10 @@
 /**
- * @author Felipe Marques, Gabriel Ramos, Rafael Henrique e Adriano Vilhena 
- * 
+ * @author Felipe Marques, Gabriel Ramos, Rafael Henrique e Adriano Vilhena
+ *
  */
 package com.mycompany.newmark;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,9 +12,8 @@ import javax.swing.JOptionPane;
 
 public class Triagem_Etiquetas {
 
-
 	public Chaves_Resultado triarBanco(String processo, String banco, String localtriagem, String tipoTriagem,
-			Boolean identificadorDePeticao) {
+									   Boolean identificadorDePeticao) {
 		Chaves_Resultado resultado = new Chaves_Resultado();
 		Tratamento tratamento = new Tratamento();
 		processo = tratamento.tratamento(processo);
@@ -26,52 +21,59 @@ public class Triagem_Etiquetas {
 		while (bancoBool == false) {
 			try {
 				Connection connection = DriverManager.getConnection("jdbc:sqlite:BancoEtiquetasMark.db");
+
 				PreparedStatement stmt;
 				ResultSet resultSet;
-				if (identificadorDePeticao) {
 
+				if (identificadorDePeticao) {
 					stmt = connection.prepareStatement("SELECT * FROM identificador_materia ORDER BY prioridade DESC");
 					//public boolean peticaoTrue = true;
-				} else {
 
-					if (banco.contains("TODOS OS BANCOS")) {
-						stmt = connection.prepareStatement(
-								"SELECT * FROM etiquetas WHERE tipo = '" + localtriagem + "' ORDER BY prioridade DESC");
-					} else {
-						stmt = connection.prepareStatement("SELECT * FROM etiquetas WHERE banco = '" + banco
-								+ "' AND tipo = '" + localtriagem + "' ORDER BY prioridade DESC");
-					}
+				} else {
+					stmt = connection.prepareStatement(
+							"SELECT * FROM etiquetas WHERE tipo = '" + localtriagem + "' ORDER BY prioridade DESC");
 				}
+
 				resultSet = stmt.executeQuery();
+
 				while (resultSet.next()) {
 					String PALAVRACHAVE = resultSet.getString("palavrachave");
-					PALAVRACHAVE = tratamento.tratamento(PALAVRACHAVE);				
+					PALAVRACHAVE = tratamento.tratamento(PALAVRACHAVE);
+					if (PALAVRACHAVE.equals("HISTÓRICO DE LAUDOS MÉDICOS PERICIAIS")){
+						System.out.println(PALAVRACHAVE);
+					}
 					String COMPLEMENTO = resultSet.getString("complemento");
 					COMPLEMENTO = tratamento.tratamento(COMPLEMENTO);
-					
-					if (processo.contains(PALAVRACHAVE) && processo.contains(COMPLEMENTO)) {
-						//resultado.setId(resultSet.getInt("id"));
-						resultado.setPalavraChave(resultSet.getString("id"));
-						if (identificadorDePeticao){
-							resultado.setSubnucleo(resultSet.getString("subnucleo"));
-
-						}
-						resultado.setEtiqueta(resultSet.getString("etiqueta"));
-
+					String BANCO = resultSet.getString("banco");
+					BANCO.replace(" ","");
+					String bancoComSpacee = banco + " ";
+					System.out.println(BANCO);
+					System.out.println(banco);
+					if (BANCO.equalsIgnoreCase(banco) || BANCO.equalsIgnoreCase(bancoComSpacee)){
+						if (processo.contains(PALAVRACHAVE) && processo.contains(COMPLEMENTO)) {
+							//resultado.setId(resultSet.getInt("id"));
+							resultado.setPalavraChave(resultSet.getString("id"));
+							if (identificadorDePeticao) {
+								resultado.setSubnucleo(resultSet.getString("subnucleo"));
+							}
+							resultado.setEtiqueta(resultSet.getString("etiqueta"));
 //						resultSet.getString("etiqueta");
 //						if (resultSet.wasNull()) {
 //							resultado.setEtiqueta(resultSet.getString("subnucleo"));
-//						} else {							
+//						} else {
 //							resultado.setEtiqueta(resultSet.getString("subnucleo") + "/" + resultSet.getString("etiqueta"));
 //						}
-						
-						connection.close();
-						return resultado;
+
+							connection.close();
+							return resultado;
+						}
 					}
+
 
 				}
 				connection.close();
 				bancoBool = true;
+
 			} catch (SQLException ex) {
 				bancoBool = false;
 				Logger.getLogger(Triagem_Etiquetas.class.getName()).log(Level.SEVERE, null, ex);
