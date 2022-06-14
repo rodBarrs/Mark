@@ -98,8 +98,8 @@ public class Administracao implements Initializable {
 
 	public void inicializarMenuPeticaoInicial() {
 		/* Inicializa a tabela Identificador de Matérias */
-		ObservableList<String> subnucleos = FXCollections.observableArrayList("ER-SEAS", "ETR-BI", "ER-TRU");
-		comboBoxNucleo.setItems(subnucleos);
+		//ObservableList<String> subnucleos = FXCollections.observableArrayList("ER-SEAS", "ETR-BI", "ER-TRU");
+		//comboBoxNucleo.setItems(subnucleos);
 
 		List<Chaves_Banco> listaIdentificadoresMateria = new IdentificadorMateriaDAO().getTabelaIdentificadorMateria();
 
@@ -195,7 +195,7 @@ public class Administracao implements Initializable {
 	@FXML
 	public void inserirIdentificadorMateria() {
 		Boolean pedidoNaoEstaVazio = !pedido.getText().trim().isEmpty() || pedido != null;
-		Boolean subnucleoFoiSelecionado = !comboBoxNucleo.getSelectionModel().isEmpty();
+		//Boolean subnucleoFoiSelecionado = !comboBoxNucleo.getSelectionModel().isEmpty();
 		// Boolean etiquetaNaoEstaVazia = !identificadorEtiqueta.getText().isEmpty();
 		Integer pesoSelecionado;
 
@@ -210,9 +210,9 @@ public class Administracao implements Initializable {
 		}
 
 
-		if (pedidoNaoEstaVazio && subnucleoFoiSelecionado) {
+		if (pedidoNaoEstaVazio) {
 			new IdentificadorMateriaDAO().inserirIdentificadorMateria(pedido.getText().toUpperCase().replace("'", "").replace("´", ""), complementoPedido.getText().toUpperCase().replace("'", "").replace("´", ""),
-					comboBoxNucleo.getSelectionModel().getSelectedItem(), pesoSelecionado,
+					pesoSelecionado,
 					identificadorEtiqueta.getText().toUpperCase().replace("'", "").replace("´", ""));
 			inicializarMenuPeticaoInicial();
 		} else {
@@ -257,14 +257,14 @@ public class Administracao implements Initializable {
 		buscaIdentificadorMateriaID.clear();
 		pedido.clear();
 		complementoPedido.clear();
-		comboBoxNucleo.getSelectionModel().clearSelection();
+	//	comboBoxNucleo.getSelectionModel().clearSelection();
 	}
 
 	public void selecionarIdentificadorMateria() {
 		pedido.setText(tabelaIdentificadorMateria.getSelectionModel().getSelectedItem().getPALAVRACHAVE());
 		complementoPedido.setText(tabelaIdentificadorMateria.getSelectionModel().getSelectedItem().getCOMPLEMENTO());
-		comboBoxNucleo.getSelectionModel()
-				.select(tabelaIdentificadorMateria.getSelectionModel().getSelectedItem().getSubnucleo());
+	//	comboBoxNucleo.getSelectionModel()
+	//			.select(tabelaIdentificadorMateria.getSelectionModel().getSelectedItem().getSubnucleo());
 	}
 
 	public void buscaIDIdentificadorMateria() {

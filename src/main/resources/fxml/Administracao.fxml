@@ -64,7 +64,6 @@
                                           <JFXTextField fx:id="pedido" focusColor="WHITE" labelFloat="true" promptText="PEDIDO *" unFocusColor="WHITE" />
                                           <JFXTextField fx:id="complementoPedido" focusColor="WHITE" labelFloat="true" promptText="COMPLEMENTO" unFocusColor="WHITE" />
                                           <JFXTextField fx:id="identificadorEtiqueta" focusColor="WHITE" promptText="ETIQUETA *" unFocusColor="WHITE" />
-                                          <JFXComboBox fx:id="comboBoxNucleo" focusColor="#bdff53" prefHeight="25.0" prefWidth="397.0" promptText="SELECIONE O SUBNÚCLEO *" unFocusColor="WHITE" />
                                        </children>
                                     </VBox>
                                     <Label layoutX="887.0" layoutY="265.0" prefHeight="27.0" prefWidth="151.0" text="* Campos obrigatórios" textFill="#575757" />

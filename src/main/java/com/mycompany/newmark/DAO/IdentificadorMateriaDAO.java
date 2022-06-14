@@ -42,7 +42,7 @@ public class IdentificadorMateriaDAO {
 		return identificadoresMateria;
 	}
 
-	public void inserirIdentificadorMateria(String pedido, String complementoPedido, String subnucleo,
+	public void inserirIdentificadorMateria(String pedido, String complementoPedido,
 			Integer pesoSelecionado, String etiqueta) {
 
 		final String SQL = "INSERT INTO identificador_materia (palavrachave, complemento, subnucleo, prioridade, etiqueta) VALUES (?, ?, ?, ?, ?);";
@@ -51,7 +51,7 @@ public class IdentificadorMateriaDAO {
 				PreparedStatement stmt = connection.prepareStatement(SQL)) {
 			stmt.setString(1, pedido);
 			stmt.setString(2, complementoPedido);
-			stmt.setString(3, subnucleo);
+		//	stmt.setString(3, subnucleo);
 			stmt.setInt(4, pesoSelecionado);
 			stmt.setString(5, etiqueta);
 

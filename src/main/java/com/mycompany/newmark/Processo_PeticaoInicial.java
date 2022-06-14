@@ -363,9 +363,9 @@ public class Processo_PeticaoInicial {
 
 	private void atualizarEtiqueta(Chaves_Resultado resultado) {
 		if (resultado.getEtiqueta().isEmpty()) {
-			resultado.setEtiqueta(resultado.getSubnucleo());
+			resultado.setEtiqueta("NÃO FOI POSSÍVEL ENCONTRAR PALAVRA CHAVE");
 		} else {
-			resultado.setEtiqueta(resultado.getSubnucleo() + "/ " + resultado.getEtiqueta());
+			resultado.setEtiqueta(resultado.getEtiqueta());
 		}
 		System.out.println("Subnúcleo colocado - " + resultado.getSubnucleo());
 	}
