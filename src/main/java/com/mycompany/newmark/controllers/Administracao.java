@@ -56,7 +56,7 @@ public class Administracao implements Initializable {
 	@FXML
 	private JFXPasswordField textoSenhaUsuario;
 	@FXML
-	private JFXComboBox<String> comboBoxBancos, comboBoxNucleo;
+	private JFXComboBox<String> comboBoxBancos, comboBoxNucleo, comboBoxBancosMov;
 	@FXML
 	private TableView<Chaves_GrupoEtiquetas> tabelaBancos;
 	@FXML
@@ -74,7 +74,7 @@ public class Administracao implements Initializable {
 			etiquetaFraseChave, etiquetaComplemento, etiquetaEtiqueta, etiquetaPeso, etiquetaTipo,
 			identificadorMateriaEtiqueta;
 	@FXML
-	private TableColumn<Chaves_Condicao, String> colunaTipoMovimento, colunaIdentificadorPeticao,
+	private TableColumn<Chaves_Condicao, String> colunaTipoMovimento, colunaBanco ,colunaIdentificadorPeticao,
 			colunaIdentificadorPeticaoInicial;
 	@FXML
 	private TableColumn<Chaves_GrupoEtiquetas, String> bancoSigla, bancoNome, bancoNumeroDeEtiquetas;
@@ -156,8 +156,15 @@ public class Administracao implements Initializable {
 		numeroEtiquetas.setText(String.valueOf(tabelaEtiquetas.getItems().size()));
 
 		/* Inicializa tabela Tipos de Movimentação */
+		comboBoxBancosMov.setItems(new Banco().setarBanco());
+		try {
+			comboBoxBancosMov.getItems().remove(0);
+			comboBoxBancosMov.getSelectionModel().selectFirst();
+		} catch (Exception e) {
+		}
 		List<Chaves_Condicao> listaTiposMovimentacao = new TipoMovimentacaoDAO().getTabelaTipoMovimentacao();
 		colunaTipoMovimento.setCellValueFactory(new PropertyValueFactory<Chaves_Condicao, String>("TEXTO"));
+		colunaBanco.setCellValueFactory(new PropertyValueFactory<Chaves_Condicao, String>("BANCO"));
 		ObservableList<Chaves_Condicao> tiposMovimentacao = FXCollections.observableArrayList(listaTiposMovimentacao);
 		tabelaTipoMovimento.setItems(tiposMovimentacao);
 		numeroTipoMovimentacao.setText(String.valueOf(tabelaTipoMovimento.getItems().size()));
@@ -563,7 +570,8 @@ public class Administracao implements Initializable {
 
 	public void inserirTipoMovimentacao() {
 		String texto = tipoMovimentacao.getText().toUpperCase();
-		new TipoMovimentacaoDAO().inserirTipoMovimentacao(texto);
+		String banco = comboBoxBancosMov.getSelectionModel().getSelectedItem().substring(0, 3);
+		new TipoMovimentacaoDAO().inserirTipoMovimentacao(texto, banco);
 		inicializarMenuTriagemPadrao();
 	}
 

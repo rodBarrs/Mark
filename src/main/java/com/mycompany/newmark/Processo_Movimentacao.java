@@ -63,7 +63,7 @@ public class Processo_Movimentacao {
         for (int i = listaMovimentacao.size(); i>0 && limite>0; i--) {
             movimentacaoAtual = driver.findElement(By.xpath("//tr[" + i + "]/td[2]/div"));
             if (verificarData.verificar(movimentacaoAtual.getText(), config.getIntervaloDias()) /*|| config.isTriarAntigo()*/) {
-                if (condicao.verificaCondicao(movimentacaoAtual.getText(),condicaoProv)){
+                if (condicao.verificaCondicao(movimentacaoAtual.getText(),condicaoProv,bancos)){
                     limite--;
                     Boolean identificadoDePeticao = false;
                     resultado = triagem.triarBanco(movimentacaoAtual.getText(), bancos, localTriagem, config.getTipoTriagem(), identificadoDePeticao);

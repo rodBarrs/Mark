@@ -33,6 +33,7 @@ public class Processo_Documento {
 		Triagem_Etiquetas triagem = new Triagem_Etiquetas();
 		VerificarData verificarData = new VerificarData();
 		Triagem_Condicao condicao = new Triagem_Condicao();
+		TriagemPasta triagemPasta = new TriagemPasta();
 		String linhaMovimentacao = "";
 		String condicaoProv = "PRO";
 		String condicaoCabecalho = "CAB";
@@ -50,7 +51,7 @@ public class Processo_Documento {
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[" + i + "]/td[2]/div")));
 			movimentacaoAtual = driver.findElement(By.xpath("//tr[" + i + "]/td[2]/div"));
 			if (verificarData.verificar(movimentacaoAtual.getText(), config.getIntervaloDias())) {
-				if (condicao.verificaCondicao(movimentacaoAtual.getText(), condicaoProv)) {
+				if (condicao.verificaCondicao(movimentacaoAtual.getText(), condicaoProv, bancos)) {
 					if ((!config.isJuntManual() == false && !movimentacaoAtual.getText().contains("PDF"))
 							|| (config.isJuntManual() == true)) {
 
@@ -62,7 +63,16 @@ public class Processo_Documento {
 								.getText().toUpperCase();
 
 						// Verifica se o documento é um pdf para tratamento apropriado
-						if (spanText.contains("PDF")) {
+						Boolean existePasta = driver.findElement(By.xpath("//tr["+i+"]/td[2]/div/img[1]")).getAttribute("class")
+								.contains("x-tree-expander");
+						if (existePasta){
+							limite--;
+							resultado = triagemPasta.documentoPasta(driver, wait, config, bancos,i);
+							if (!resultado.getEtiqueta().equals("") && !resultado.getEtiqueta().contains("NÃO FOI POSSÍVEL")){
+								return resultado;
+							}
+						}
+						else if (spanText.contains("PDF")) {
 							pdf.apagarPDF();
 							// Click na linha
 							driver.findElement(By.xpath("//tr[" + i + "]/td/div")).click();
@@ -93,7 +103,10 @@ public class Processo_Documento {
 								try {
 									wait.until(ExpectedConditions.elementToBeClickable(By.tagName("html")));
 									wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName("body")));
+
+									driver.findElement(By.tagName("html")).click();
 									driver.findElement(By.tagName("body")).click();
+
 									flag = false;
 								} catch (Exception e) {
 									// Nothing to do at all
@@ -103,37 +116,41 @@ public class Processo_Documento {
 							Actions action = new Actions(driver);
 							action.keyDown(Keys.CONTROL).sendKeys(String.valueOf('\u0061')).perform();
 							action.keyDown(Keys.CONTROL).sendKeys(String.valueOf('\u0063')).perform();
+
 							driver.switchTo().defaultContent();
 							Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 							DataFlavor flavor = DataFlavor.stringFlavor;
 							Thread.sleep(500);
 							processo = clipboard.getData(flavor).toString();
 						}
+						if(!existePasta) {
 
-						if (processo.length() > 1) {
 
-							limite--;
-							try {
-								Boolean identificadoDePeticao = false;
-								resultado = triagem.triarBanco(processo, bancos, localTriagem, config.getTipoTriagem(),
-										identificadoDePeticao);
-								if (!resultado.getEtiqueta()
-										.contains("NÃO FOI POSSÍVEL LOCALIZAR FRASE CHAVE ATUALIZADA")
-										&& !resultado.getEtiqueta().contains("ERRO EM TRIAGEM: PDF NÃO PESQUISÁVEL")) {
-									linhaMovimentacao = driver.findElement(By.xpath("//tr[" + i + "]/td/div"))
-											.getText();
-									resultado.setLocal("DOC " + linhaMovimentacao);
-									resultado.setDriver(driver);
-									return resultado;
+							if (processo.length() > 1) {
+
+								limite--;
+								try {
+									Boolean identificadoDePeticao = false;
+									resultado = triagem.triarBanco(processo, bancos, localTriagem, config.getTipoTriagem(),
+											identificadoDePeticao);
+									if (!resultado.getEtiqueta()
+											.contains("NÃO FOI POSSÍVEL LOCALIZAR FRASE CHAVE ATUALIZADA")
+											&& !resultado.getEtiqueta().contains("ERRO EM TRIAGEM: PDF NÃO PESQUISÁVEL")) {
+										linhaMovimentacao = driver.findElement(By.xpath("//tr[" + i + "]/td/div"))
+												.getText();
+										resultado.setLocal("DOC " + linhaMovimentacao);
+										resultado.setDriver(driver);
+										return resultado;
+									}
+								} catch (Exception erro) {
+									wait.until(ExpectedConditions.presenceOfElementLocated(By.id("button-1005-btnEl")));
+									driver.findElement(By.id("button-1005-btnEl")).click();
+									erro.printStackTrace();
 								}
-							} catch (Exception erro) {
-								wait.until(ExpectedConditions.presenceOfElementLocated(By.id("button-1005-btnEl")));
-								driver.findElement(By.id("button-1005-btnEl")).click();
-								erro.printStackTrace();
-							}
 
-						} else {
-							resultado.setEtiqueta("ERRO EM TRIAGEM: INSTABILIDADE NO SAPIENS");
+							} else {
+								resultado.setEtiqueta("ERRO EM TRIAGEM: INSTABILIDADE NO SAPIENS");
+							}
 						}
 					}
 				}

@@ -24,6 +24,7 @@ public class TipoMovimentacaoDAO {
 				Chaves_Condicao key = new Chaves_Condicao();
 				key.setTIPO("PRO");
 				key.setTEXTO(resultSet.getString("texto"));
+				key.setBANCO(resultSet.getString("banco"));
 				chaves.add(key);
 			}
 		} catch (Exception e) {
@@ -64,10 +65,11 @@ public class TipoMovimentacaoDAO {
 		
 	}
 
-	public void inserirTipoMovimentacao(String texto) {
-		final String SQL = "INSERT INTO condicao (texto, tipo) VALUES (?, 'PRO')";
+	public void inserirTipoMovimentacao(String texto, String banco) {
+		final String SQL = "INSERT INTO condicao (texto, tipo, banco) VALUES (?, 'PRO', ?)";
 		try (Connection connection = new ConnectionFactory().obterConexao(); PreparedStatement stmt = connection.prepareStatement(SQL)){
 			stmt.setString(1, texto);
+			stmt.setString(2, banco);
 			stmt.execute();
 			new Aviso().aviso("Item inserido");
 		} catch (Exception e) {

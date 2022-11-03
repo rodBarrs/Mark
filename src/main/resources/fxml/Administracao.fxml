@@ -359,11 +359,12 @@
                         </Tab>
                         <Tab text="Tipos de Movimentação">
                           <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <AnchorPane fx:id="" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
                                     <TableView fx:id="tabelaTipoMovimento" onMouseClicked="#selecionarTipoMovimentacao" prefHeight="591.0" prefWidth="874.0" stylesheets="@../styles/tabela.css">
                                        <columns>
-                                          <TableColumn fx:id="colunaTipoMovimento" maxWidth="873.0" minWidth="50.0" prefWidth="873.0" text="TIPOS DE MOVIMENTAÇÕES" />
+                                          <TableColumn fx:id="colunaTipoMovimento" maxWidth="873.0" minWidth="50.0" prefWidth="813.0" text="TIPOS DE MOVIMENTAÇÕES" />
+                                          <TableColumn fx:id="colunaBanco" maxWidth="873.0" minWidth="50.0" prefWidth="61.0" text="Banco" />
                                        </columns>
                                        <contextMenu>
                                           <ContextMenu>
@@ -385,22 +386,22 @@
                                        </font>
                                     </Label>
                                     <JFXTextField fx:id="tipoMovimentacao" focusColor="WHITE" labelFloat="true" layoutX="887.0" layoutY="127.0" prefHeight="25.0" prefWidth="380.0" promptText="Tipo de Movimentação" styleClass="TextField" stylesheets="@../styles/dark_theme.css" unFocusColor="#fcfcfc" />
-                                    <JFXButton fx:id="botaoInserir111" alignment="CENTER" contentDisplay="CENTER" layoutX="1083.0" layoutY="172.0" onAction="#inserirTipoMovimentacao" prefHeight="27.0" prefWidth="185.0" styleClass="botaoAzul" stylesheets="@../styles/botoes.css" text="Inserir Registro">
+                                    <JFXButton fx:id="botaoInserir111" alignment="CENTER" contentDisplay="CENTER" layoutX="1083.0" layoutY="224.0" onAction="#inserirTipoMovimentacao" prefHeight="27.0" prefWidth="185.0" styleClass="botaoAzul" stylesheets="@../styles/botoes.css" text="Inserir Registro">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </JFXButton>
-                                    <JFXButton fx:id="botaoExcluir111" alignment="CENTER" contentDisplay="CENTER" layoutX="888.0" layoutY="172.0" onAction="#excluirTipoMovimentacao" prefHeight="27.0" prefWidth="185.0" styleClass="botaoVermelho" stylesheets="@../styles/botoes.css" text="Excluir Registro">
+                                    <JFXButton fx:id="botaoExcluir111" alignment="CENTER" contentDisplay="CENTER" layoutX="887.0" layoutY="224.0" onAction="#excluirTipoMovimentacao" prefHeight="27.0" prefWidth="185.0" styleClass="botaoVermelho" stylesheets="@../styles/botoes.css" text="Excluir Registro">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </JFXButton>
-                                    <JFXButton fx:id="botaoVoltar111" layoutX="1136.0" layoutY="256.0" onAction="#retornaMenu" prefHeight="25.0" prefWidth="132.0" styleClass="botaoBranco" stylesheets="@../styles/botoes.css" text="Voltar">
+                                    <JFXButton fx:id="botaoVoltar111" layoutX="1134.0" layoutY="311.0" onAction="#retornaMenu" prefHeight="25.0" prefWidth="132.0" styleClass="botaoBranco" stylesheets="@../styles/botoes.css" text="Voltar">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </JFXButton>
-                                    <Separator layoutX="888.0" layoutY="235.0" prefHeight="19.0" prefWidth="380.0" />
+                                    <Separator layoutX="887.0" layoutY="286.0" prefHeight="19.0" prefWidth="380.0" />
                                     <Label layoutX="886.0" layoutY="565.0" prefHeight="17.0" prefWidth="108.0" text="Total de Etiquetas:" textFill="#f5f5f5">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
@@ -411,11 +412,12 @@
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </JFXTextField>
-                                    <JFXButton fx:id="atualizar1" layoutX="1083.0" layoutY="207.0" onAction="#inicializarMenuTriagemPadrao" prefHeight="27.0" prefWidth="185.0" styleClass="botaoBranco" stylesheets="@../styles/botoes.css" text="Atualizar Tabela">
+                                    <JFXButton fx:id="atualizar1" layoutX="1083.0" layoutY="259.0" onAction="#inicializarMenuTriagemPadrao" prefHeight="27.0" prefWidth="185.0" styleClass="botaoBranco" stylesheets="@../styles/botoes.css" text="Atualizar Tabela">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </JFXButton>
+                                    <JFXComboBox fx:id="comboBoxBancosMov" focusColor="WHITE" layoutX="887.0" layoutY="169.0" prefHeight="25.0" prefWidth="384.0" promptText="Selecione o banco" unFocusColor="WHITE" />
                                  </children>
                               </AnchorPane>
                           </content>

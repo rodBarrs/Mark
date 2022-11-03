@@ -159,7 +159,7 @@ public class Processo_PeticaoInicial {
 					documentoPeticaoInicial = tratamento.tratamento(documentoPeticaoInicial);
 				}
 
-				Boolean contemPeticaoInicial = cond.verificaCondicao(documentoPeticaoInicial, "PET");
+				Boolean contemPeticaoInicial = cond.verificaCondicao(documentoPeticaoInicial, "PET", banco);
 				if (Boolean.FALSE.equals(contemPeticaoInicial)) {
 
 					int proximaLinha = Integer
@@ -193,7 +193,7 @@ public class Processo_PeticaoInicial {
 							for (int a = 0; a < 2; a++) {
 								if (pdfBaixado) {
 									String processo = pdf.lerPDF().toUpperCase();
-									if (cond.verificaCondicao(processo, "PET")) {
+									if (cond.verificaCondicao(processo, "PET",banco)) {
 										String posicaoDaPeticao = String.valueOf(j - 1);
 										Chaves_Resultado.setSeqPeticao("(" + posicaoDaPeticao + ")");
 
@@ -241,7 +241,7 @@ public class Processo_PeticaoInicial {
 							String processo = clipboard.getData(flavor).toString().toUpperCase();
 							processo = tratamento.tratamento(processo);
 
-							contemPeticaoInicial = cond.verificaCondicao(processo, "PET");
+							contemPeticaoInicial = cond.verificaCondicao(processo, "PET", banco);
 							if (contemPeticaoInicial) {
 								String posicaoDaPeticao = String.valueOf(j - 1);
 								Chaves_Resultado.setSeqPeticao("(" + posicaoDaPeticao + ")");

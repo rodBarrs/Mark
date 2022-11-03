@@ -45,7 +45,9 @@ public class Processo_Etiquetar {
 //		resultado.setEtiqueta(preEtiqueta + resultado.getEtiqueta());
 
 		///////////////////////
-
+		if (resultado.getEtiqueta().equals("")){
+			resultado.setEtiqueta("NÃO FOI POSSÍVEL LOCALIZAR FRASE CHAVE ATUALIZADA");
+		}
 			driver.findElement(By.xpath("//fieldset[5]/div/span/div/table[4]/tbody/tr/td[2]/input")).clear();
 			driver.findElement(By.xpath("//div/div/span/div/table/tbody/tr/td[2]/textarea")).clear();
 			driver.findElement(By.xpath("//fieldset[5]/div/span/div/table[4]/tbody/tr/td[2]/input"))

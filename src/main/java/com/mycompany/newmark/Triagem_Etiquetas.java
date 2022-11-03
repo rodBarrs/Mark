@@ -43,6 +43,9 @@ public class Triagem_Etiquetas {
 					String COMPLEMENTO = resultSet.getString("complemento");
 					COMPLEMENTO = tratamento.tratamento(COMPLEMENTO);
 					String BANCO = "";
+					if (PALAVRACHAVE.contains("DE ORDEM DO MM. JUIZ FEDERAL")){
+						System.out.println("oi");
+					}
 					if (identificadorDePeticao){
 
 					}else {
@@ -69,7 +72,7 @@ public class Triagem_Etiquetas {
 							connection.close();
 							return resultado;
 						}
-					} else if (processo.contains(PALAVRACHAVE) && processo.contains(COMPLEMENTO) && BANCO.contains(banco)) {
+					} else if (processo.contains(PALAVRACHAVE) && processo.contains(COMPLEMENTO) && (BANCO.contains(banco) || banco.contains("TODOS OS BANCOS"))) {
 						//resultado.setId(resultSet.getInt("id"));
 						resultado.setPalavraChave(resultSet.getString("id"));
 						if (identificadorDePeticao) {

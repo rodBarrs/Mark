@@ -16,11 +16,16 @@ import javax.swing.JOptionPane;
 
 public class Triagem_Condicao {
     
-    public boolean verificaCondicao(String processo, String tipo) throws SQLException {
+    public boolean verificaCondicao(String processo, String tipo, String banco ) throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:sqlite:BancoEtiquetasMark.db");
         PreparedStatement stmt;
         ResultSet resultSet;
-        stmt = connection.prepareStatement("SELECT * FROM condicao WHERE tipo = '" + tipo + "'");
+        if (banco.equals("TODOS OS BANCOS")){
+            stmt = connection.prepareStatement("SELECT * FROM condicao");
+        }else{
+            stmt = connection.prepareStatement("SELECT * FROM condicao WHERE banco = '" + banco + "'");
+        }
+
         resultSet = stmt.executeQuery();
         while (resultSet.next()){
             String texto = resultSet.getString("texto");

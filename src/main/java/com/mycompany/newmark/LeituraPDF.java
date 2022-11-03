@@ -7,7 +7,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
 public class LeituraPDF {
-	File filePath = new File("C:\\Temp");
+	File filePath = new File("C:\\MarkPDF");
 	public Boolean PDFBaixado() throws InterruptedException {
 		for (int i = 0; i < 5; i++) {
 			Thread.sleep(2000);
