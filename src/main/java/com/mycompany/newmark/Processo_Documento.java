@@ -62,16 +62,17 @@ public class Processo_Documento {
 						String spanText = driver.findElement(By.xpath("//tr[" + i + "]/td[2]/div/span/span[2]"))
 								.getText().toUpperCase();
 
-						// Verifica se o documento é um pdf para tratamento apropriado
+
 						Boolean existePasta = driver.findElement(By.xpath("//tr["+i+"]/td[2]/div/img[1]")).getAttribute("class")
 								.contains("x-tree-expander");
 						if (existePasta){
 							limite--;
-							resultado = triagemPasta.documentoPasta(driver, wait, config, bancos,i);
+							resultado = triagemPasta.documentoPasta(driver, wait, config, bancos,i, resultado, pdf);
 							if (!resultado.getEtiqueta().equals("") && !resultado.getEtiqueta().contains("NÃO FOI POSSÍVEL")){
 								return resultado;
 							}
 						}
+						// Verifica se o documento é um pdf para tratamento apropriado
 						else if (spanText.contains("PDF")) {
 							pdf.apagarPDF();
 							// Click na linha
@@ -82,6 +83,9 @@ public class Processo_Documento {
 
 								if (pdf.PDFBaixado()) {
 									processo = pdf.lerPDF();
+									Actions action = new Actions(driver);
+									action.keyDown(Keys.CONTROL).sendKeys(String.valueOf('\u0061')).perform();
+									action.keyDown(Keys.CONTROL).sendKeys(String.valueOf('\u0063')).perform();
 									break;
 								} else {
 									pdf.apagarPDF();

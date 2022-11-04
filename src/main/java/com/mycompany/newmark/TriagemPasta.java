@@ -18,17 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TriagemPasta {
-    public Chaves_Resultado documentoPasta(WebDriver driver, WebDriverWait wait, Chaves_Configuracao config, String bancos, int i)
+    public Chaves_Resultado documentoPasta(WebDriver driver, WebDriverWait wait, Chaves_Configuracao config, String bancos, int i, Chaves_Resultado resultado, LeituraPDF pdf)
             throws InterruptedException, UnsupportedFlavorException, IOException, SQLException {
-        LeituraPDF pdf = new LeituraPDF();
-        Chaves_Resultado resultado = new Chaves_Resultado();
+
+
         //resultado.setEtiqueta("NÃO FOI POSSÍVEL LOCALIZAR FRASE CHAVE ATUALIZADA");
         Triagem_Etiquetas triagem = new Triagem_Etiquetas();
-        VerificarData verificarData = new VerificarData();
-        Triagem_Condicao condicao = new Triagem_Condicao();
+
         String linhaMovimentacao = "";
-        String condicaoProv = "PRO";
-        String condicaoCabecalho = "CAB";
         String localTriagem = "DOC";
         String processo = "";
         int diferenca = 30;
@@ -171,8 +168,7 @@ public class TriagemPasta {
                 }
 
             }
-        driver.switchTo().defaultContent();
-        resultado.setDriver(driver);
+
         return resultado;
     }
 
