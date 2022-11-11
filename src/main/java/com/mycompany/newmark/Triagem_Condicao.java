@@ -20,20 +20,22 @@ public class Triagem_Condicao {
         Connection connection = DriverManager.getConnection("jdbc:sqlite:BancoEtiquetasMark.db");
         PreparedStatement stmt;
         ResultSet resultSet;
-        if (banco.equals("TODOS OS BANCOS")){
-            stmt = connection.prepareStatement("SELECT * FROM condicao");
-        }else{
-            stmt = connection.prepareStatement("SELECT * FROM condicao WHERE banco = '" + banco + "'");
-        }
+
+        stmt = connection.prepareStatement("SELECT * FROM condicao");
+
 
         resultSet = stmt.executeQuery();
         while (resultSet.next()){
-            String texto = resultSet.getString("texto");
-           
-            if (processo.contains(texto)) {
-                connection.close();
-                return true;
+            String Banco = resultSet.getString("banco");
+            if((Banco.contains(banco)) || banco.equals("TODOS OS BANCOS")){
+                String texto = resultSet.getString("texto");
+
+                if (processo.contains(texto)) {
+                    connection.close();
+                    return true;
+                }
             }
+
         }
         connection.close();
         return false;

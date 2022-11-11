@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.Cursor?>
@@ -490,51 +488,6 @@
                   </JFXButton>
                </children></AnchorPane>
         </content>
-      </Tab>
-      <Tab text="Usuários">
-         <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <ImageView disable="true" fitHeight="344.0" fitWidth="322.0" layoutX="1041.0" layoutY="311.0" opacity="0.09" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Imagens/MarkBranco.png" />
-                     </image>
-                  </ImageView>
-                  <TableView fx:id="tabelaUsuarios" onMouseClicked="#selecionarUsuario" prefHeight="622.0" prefWidth="874.0" stylesheets="@../styles/tabela.css">
-                     <columns>
-                        <TableColumn fx:id="nomeUsuario" editable="false" minWidth="-Infinity" prefWidth="873.0" resizable="false" text="Nome" />
-                     </columns>
-                  </TableView>
-                  <JFXTextField fx:id="textoNomeUsuario" focusColor="WHITE" labelFloat="true" layoutX="891.0" layoutY="14.0" prefHeight="25.0" prefWidth="371.0" promptText="Nome do usuário" unFocusColor="WHITE">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </JFXTextField>
-                  <JFXButton layoutX="891.0" layoutY="160.0" onAction="#inicializarUsuarios" prefHeight="27.0" prefWidth="372.0" styleClass="botaoBranco" stylesheets="@../styles/botoes.css" text="Atualizar Tabela">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="btnAtualizarUsuario" alignment="CENTER" disable="true" layoutX="891.0" layoutY="124.0" onAction="#atualizarUsuario" prefHeight="27.0" prefWidth="372.0" styleClass="botaoAzul" stylesheets="@../styles/botoes.css" text="Atualizar usuário">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXButton fx:id="botaoVoltar21" layoutX="1130.0" layoutY="575.0" onAction="#retornaMenu" prefHeight="27.0" prefWidth="132.0" styleClass="botaoBranco" stylesheets="@../styles/botoes.css" text="Voltar">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </JFXButton>
-                  <JFXPasswordField fx:id="textoSenhaUsuario" focusColor="WHITE" layoutX="891.0" layoutY="56.0" prefWidth="371.0" promptText="Senha" unFocusColor="WHITE">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </JFXPasswordField>
-                  <JFXCheckBox fx:id="exibirSenha" checkedColor="#31dda1" layoutX="891.0" layoutY="94.0" onAction="#toggleSenha" text="Exibir Senha" textFill="WHITE" unCheckedColor="WHITE" />
-                  <JFXTextField fx:id="textoSenhaUsuarioVisivel" focusColor="WHITE" layoutX="891.0" layoutY="56.0" prefHeight="25.0" prefWidth="371.0" unFocusColor="WHITE" visible="false" />
-               </children>
-            </AnchorPane>
-         </content>
       </Tab>
    </tabs>
 </JFXTabPane>

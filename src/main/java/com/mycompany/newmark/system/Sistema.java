@@ -2,7 +2,7 @@ package com.mycompany.newmark.system;
 
 public class Sistema {
 
-	public static final String VERSAO = "3.7.2";
+	public static final String VERSAO = "3.8";
 
 	/*
 	 * 3.3.3

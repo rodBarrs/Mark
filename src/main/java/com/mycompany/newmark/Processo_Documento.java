@@ -15,10 +15,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -48,6 +45,7 @@ public class Processo_Documento {
 		int limite = 10;
 		WebElement movimentacaoAtual;
 		for (int i = listaMovimentacao.size(); i > 0 && limite > 0; i--) {
+			driver.switchTo().defaultContent();
 			wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[" + i + "]/td[2]/div")));
 			movimentacaoAtual = driver.findElement(By.xpath("//tr[" + i + "]/td[2]/div"));
 			if (verificarData.verificar(movimentacaoAtual.getText(), config.getIntervaloDias())) {
@@ -84,18 +82,42 @@ public class Processo_Documento {
 								if (pdf.PDFBaixado()) {
 									processo = pdf.lerPDF();
 									Actions action = new Actions(driver);
-									action.keyDown(Keys.CONTROL).sendKeys(String.valueOf('\u0061')).perform();
-									action.keyDown(Keys.CONTROL).sendKeys(String.valueOf('\u0063')).perform();
+									action.sendKeys(Keys.ESCAPE);
 									break;
 								} else {
 									pdf.apagarPDF();
 									driver.findElement(By.xpath("//tr[" + i + "]/td/div")).click();
 								}
 								cont++;
+
+
+							}
+
+							List<String> janela = new ArrayList(driver.getWindowHandles());
+							driver.switchTo().window(janela.get(1)).close();
+							driver.switchTo().window(janela.get(0));
+							wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[starts-with(@id,'edicaotarefawindow')]")));
+							driver.findElement(By.xpath("//tr[1]/td[3]/div/a")).click();
+							List<String> janela2 = new ArrayList(driver.getWindowHandles());
+							driver.switchTo().window(janela2.get(1));
+							boolean flag = false;
+							while (!flag) {
+								try {
+									wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("treeview-1015")));
+									wait.until(ExpectedConditions.elementToBeClickable(By.id("treeview-1015")));
+									wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("treeview-1015-body")));
+									wait.until(ExpectedConditions.elementToBeClickable(By.id("treeview-1015-body")));
+									wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[" + i + "]/td[2]/div/img[1]")));
+									flag = true;
+								} catch (Exception e) {
+
+								}
 							}
 
 						} else {
-							driver.findElement(By.xpath("//tr[" + i + "]/td/div")).click();
+							WebElement ele = driver.findElement(By.xpath("//tr[" + i + "]/td/div"));
+							ele.click();
+
 							// Envia o driver para o iframe e verifca os itens internos para confirmação do
 							// carregamento
 							wait.until(ExpectedConditions.presenceOfElementLocated(By.id("iframe-myiframe")));
@@ -105,11 +127,11 @@ public class Processo_Documento {
 							boolean flag = true;
 							do {
 								try {
+
 									wait.until(ExpectedConditions.elementToBeClickable(By.tagName("html")));
 									wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName("body")));
-
 									driver.findElement(By.tagName("html")).click();
-									driver.findElement(By.tagName("body")).click();
+
 
 									flag = false;
 								} catch (Exception e) {
@@ -117,11 +139,14 @@ public class Processo_Documento {
 								}
 
 							} while (flag);
+
 							Actions action = new Actions(driver);
+//
+							driver.findElement(By.tagName("html")).click();
+							driver.findElement(By.tagName("body")).click();
 							action.keyDown(Keys.CONTROL).sendKeys(String.valueOf('\u0061')).perform();
 							action.keyDown(Keys.CONTROL).sendKeys(String.valueOf('\u0063')).perform();
 
-							driver.switchTo().defaultContent();
 							Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 							DataFlavor flavor = DataFlavor.stringFlavor;
 							Thread.sleep(500);
@@ -140,6 +165,7 @@ public class Processo_Documento {
 									if (!resultado.getEtiqueta()
 											.contains("NÃO FOI POSSÍVEL LOCALIZAR FRASE CHAVE ATUALIZADA")
 											&& !resultado.getEtiqueta().contains("ERRO EM TRIAGEM: PDF NÃO PESQUISÁVEL")) {
+										driver.switchTo().defaultContent();
 										linhaMovimentacao = driver.findElement(By.xpath("//tr[" + i + "]/td/div"))
 												.getText();
 										resultado.setLocal("DOC " + linhaMovimentacao);

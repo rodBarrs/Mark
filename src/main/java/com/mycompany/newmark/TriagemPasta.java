@@ -105,6 +105,29 @@ public class TriagemPasta {
                         cont++;
                     }
 
+                    List<String> janela = new ArrayList(driver.getWindowHandles());
+                    driver.switchTo().window(janela.get(1)).close();
+                    driver.switchTo().window(janela.get(0));
+                    wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[starts-with(@id,'edicaotarefawindow')]")));
+                    driver.findElement(By.xpath("//tr[1]/td[3]/div/a")).click();
+                    List<String> janela2 = new ArrayList(driver.getWindowHandles());
+                    driver.switchTo().window(janela2.get(1));
+                    boolean flag = false;
+                    while (!flag) {
+                        try {
+                            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("treeview-1015")));
+                            wait.until(ExpectedConditions.elementToBeClickable(By.id("treeview-1015")));
+                            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("treeview-1015-body")));
+                            wait.until(ExpectedConditions.elementToBeClickable(By.id("treeview-1015-body")));
+                            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[" + i + "]/td[2]/div/img[1]")));
+                            driver.findElement(By.xpath("//tr[" + i + "]/td[2]/div/img[1]")).click();
+                            flag = true;
+                        } catch (Exception e) {
+
+                        }
+                    }
+
+
                 } else {
                     driver.findElement(By.xpath("//tr[" + j + "]/td[2]/div/span/span[1]")).click();
                     // Envia o driver para o iframe e verifca os itens internos para confirmação do

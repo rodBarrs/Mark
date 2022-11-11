@@ -35,6 +35,7 @@ public class Banco {
 			comandoSql.execute("CREATE TABLE IF NOT EXISTS condicao (               \n"
 					+ "texto        VARCHAR (100)       NOT NULL,                       \n"
 					+ "tipo         VARCHAR (3)         NOT NULL,                       \n"
+					+ "banco         VARCHAR (20)         NOT NULL,                     \n"
 					+ "PRIMARY KEY (texto,tipo)                                         \n" + ");");
 
 			comandoSql.execute("CREATE TABLE IF NOT EXISTS configuracao (           \n"
@@ -79,12 +80,12 @@ public class Banco {
 					+ "                               DEFAULT ('1') \n"
 					+ ");\n"
 					+ "");
-			comandoSql.execute("CREATE TABLE IF NOT EXISTS usuarios (\n"
-					+ "    id    INTEGER       PRIMARY KEY AUTOINCREMENT,\n"
-					+ "    nome  VARCHAR (255),\n"
-					+ "    senha VARCHAR (255) \n"
-					+ ");\n"
-					+ "");
+//			comandoSql.execute("CREATE TABLE IF NOT EXISTS usuarios (\n"
+//					+ "    id    INTEGER       PRIMARY KEY AUTOINCREMENT,\n"
+//					+ "    nome  VARCHAR (255),\n"
+//					+ "    senha VARCHAR (255) \n"
+//					+ ");\n"
+//					+ "");
 
 			//Verifica se o banco foi criado pelo codigo acima, caso tenha sido, o codigo a baixo implementará as linhas de configuração e contador para o correto funcionamento das demais classes
 			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM configuracao");
@@ -101,17 +102,17 @@ public class Banco {
 								+ "VALUES (1997,'30','COM','true','false','true','','');");
 			}
 			
-			stmt = connection.prepareStatement("SELECT * FROM usuarios");
-			ResultSet rs = stmt.executeQuery();
-			Integer teste = 0;
-			while(rs.next()) {
-				teste++;
-			}
-			
-			if(teste == 0) {
-				comandoSql.execute("INSERT INTO usuarios (nome, senha) VALUES ('admin-mark', 'tonystark')");
-			}
-			//Desconecta com o banco de dados, garantindo assim a integridade do dados
+//			stmt = connection.prepareStatement("SELECT * FROM usuarios");
+//			ResultSet rs = stmt.executeQuery();
+//			Integer teste = 0;
+//			while(rs.next()) {
+//				teste++;
+//			}
+//
+//			if(teste == 0) {
+//				comandoSql.execute("INSERT INTO usuarios (nome, senha) VALUES ('admin-mark', 'tonystark')");
+//			}
+//			//Desconecta com o banco de dados, garantindo assim a integridade do dados
 			connection.close();
 		} catch (SQLException erro) {
 			erro.printStackTrace();

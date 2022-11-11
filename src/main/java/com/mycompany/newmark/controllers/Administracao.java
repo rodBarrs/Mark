@@ -91,7 +91,7 @@ public class Administracao implements Initializable {
 		inicializarMenuPeticaoInicial();
 		inicializarMenuTriagemPadrao();
 		inicializarBancoDeDados();
-		inicializarUsuarios();
+//		inicializarUsuarios();
 	}
 
 	/* Inicializações */
@@ -182,12 +182,12 @@ public class Administracao implements Initializable {
 		tabelaBancos.setItems(genericos);
 	}
 
-	public void inicializarUsuarios() {
-		List<UsuarioLocal> usuarios = new UsuarioLocalDAO().getTabelaUsuarios();
-		nomeUsuario.setCellValueFactory(new PropertyValueFactory<UsuarioLocal, String>("nome"));
-		ObservableList<UsuarioLocal> users = FXCollections.observableArrayList(usuarios);
-		tabelaUsuarios.setItems(users);
-	}
+//	public void inicializarUsuarios() {
+//		List<UsuarioLocal> usuarios = new UsuarioLocalDAO().getTabelaUsuarios();
+//		nomeUsuario.setCellValueFactory(new PropertyValueFactory<UsuarioLocal, String>("nome"));
+//		ObservableList<UsuarioLocal> users = FXCollections.observableArrayList(usuarios);
+//		tabelaUsuarios.setItems(users);
+//	}
 
 	/* Global */
 	@FXML
@@ -647,7 +647,7 @@ public class Administracao implements Initializable {
 		} else {
 			new UsuarioLocalDAO().atualizarUsuario(nome, senha, antigoNome);
 		}
-		inicializarUsuarios();
+//		inicializarUsuarios();
 	}
 
 	public void selecionarUsuario() {
