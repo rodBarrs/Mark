@@ -14,9 +14,12 @@ public class Triagem_Etiquetas {
 
 	public Chaves_Resultado triarBanco(String processo, String banco, String localtriagem, String tipoTriagem,
 									   Boolean identificadorDePeticao) {
+		processo.replace("\n", "");
+		processo.replace(" ","");
 		Chaves_Resultado resultado = new Chaves_Resultado();
 		Tratamento tratamento = new Tratamento();
 		processo = tratamento.tratamento(processo);
+
 		boolean bancoBool = false;
 		while (bancoBool == false) {
 			try {
@@ -43,9 +46,7 @@ public class Triagem_Etiquetas {
 					String COMPLEMENTO = resultSet.getString("complemento");
 					COMPLEMENTO = tratamento.tratamento(COMPLEMENTO);
 					String BANCO = "";
-					if (PALAVRACHAVE.contains("DE ORDEM DO MM. JUIZ FEDERAL")){
-						System.out.println("oi");
-					}
+
 					if (identificadorDePeticao){
 
 					}else {

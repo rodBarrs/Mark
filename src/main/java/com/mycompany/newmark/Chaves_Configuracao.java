@@ -12,6 +12,8 @@ public class Chaves_Configuracao {
     private boolean JuntManual;
     private boolean LaudoPericial;
     private boolean PeticaoInicial;
+
+    private boolean concatenacao;
     private boolean debugpi = false;
         
     public Integer getIntervaloDias() {
@@ -53,8 +55,14 @@ public class Chaves_Configuracao {
     public void setPeticaoInicial(boolean PeticaoInicial) {
         this.PeticaoInicial = PeticaoInicial;
     }
-    
-    
+
+    public boolean isConcatenacao() {
+        return concatenacao;
+    }
+
+    public void setConcatenacao(boolean concatenacao) {
+        this.concatenacao = concatenacao;
+    }
 
     @Override
     public String toString() {

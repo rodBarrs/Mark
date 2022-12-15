@@ -16,6 +16,8 @@ public class Tratamento {
         processo = StringUtils.normalizeSpace(processo);
         processo = StringUtils.normalizeSpace(processo);
         processo = StringUtils.normalizeSpace(processo);
+        processo = StringUtils.deleteWhitespace(processo);
+
         return processo;
     }
 }

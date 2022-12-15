@@ -80,7 +80,7 @@ public class Controller_Configuracao implements Initializable {
 			salvarEspecifica, voltarEspecifica, voltarContador, botaoBuscaProvidencia;
 	@FXML
 	RadioButton verificaData, triarAntigo, tipoCOM, tipoDOC, tipoMOV, html, pdf, desativadoPericial, ativadoPericial,
-			desativadoPeticaoInicial, ativadoPeticaoInicial, P1, P2, P3, P4;
+			desativadoPeticaoInicial, ativadoPeticaoInicial, desativadoConcatenacao, ativadoConcatenacao, P1, P2, P3, P4;
 	@FXML
 	private JFXComboBox<String> comboBoxNucleo;
 	final ToggleGroup grupoTriarAntigo = new ToggleGroup();
@@ -134,6 +134,11 @@ public class Controller_Configuracao implements Initializable {
 			ativadoPeticaoInicial.setSelected(true);
 		} else {
 			desativadoPeticaoInicial.setSelected(true);
+		}
+		if ( configuracao.isConcatenacao()) {
+			ativadoConcatenacao.setSelected(true);
+		} else {
+			desativadoConcatenacao.setSelected(true);
 		}
 		contadores();
 	}
@@ -198,6 +203,7 @@ public class Controller_Configuracao implements Initializable {
 	public void salvarEspecificas(ActionEvent event) {
 		boolean pericial;
 		boolean peticao;
+		boolean concatenacao;
 		Banco banco = new Banco();
 
 		if (ativadoPericial.isSelected()) {
@@ -214,13 +220,19 @@ public class Controller_Configuracao implements Initializable {
 			peticao = false;
 		}
 
+		if (ativadoConcatenacao.isSelected()) {
+			concatenacao = true;
+		} else {
+			concatenacao = false;
+		}
+
 		Aviso aviso = new Aviso();
 		String textoAviso = "";
 		if (ativadoPericial.isSelected() && ativadoPeticaoInicial.isSelected()) {
 			textoAviso = "Não é possivel realizar dois modos de pesquisa específicos simultaneamente, ative apenas uma opção!";
 			aviso.aviso(textoAviso);
 		} else {
-			banco.salvarEspecificas(pericial, peticao);
+			banco.salvarEspecificas(pericial, peticao, concatenacao);
 			textoAviso = "Configuração salva com sucesso!";
 			aviso.aviso(textoAviso);
 		}

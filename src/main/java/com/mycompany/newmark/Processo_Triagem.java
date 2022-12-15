@@ -90,7 +90,7 @@ public class Processo_Triagem {
 					resultado.getDriver().switchTo().window(janela.get(1)).close();
 					resultado.getDriver().switchTo().window(janela.get(0));
 
-					etiqueta.etiquetar(resultado.getDriver(), wait, resultado);
+					etiqueta.etiquetar(resultado.getDriver(), wait, resultado,config);
 					//Contadores
 					if (resultado.getLocal().contains("MOV")) {
 						banco.contarMov();

@@ -45,6 +45,7 @@ public class Banco {
 					+ "JuntManual   BOOLEAN             NOT NULL    DEFAULT (false),     \n"
 					+ "LaudoPericial BOOLEAN            NOT NULL    DEFAULT (false),    \n"
 					+ "PeticaoInicial BOOLEAN           NOT NULL    DEFAULT (true),     \n"
+					+ "Concatenacao BOOLEAN           NOT NULL    DEFAULT (false),     \n"
 					+ "Login        STRING                          DEFAULT (''),       \n"
 					+ "Senha        STRING                          DEFAULT (''),       \n"
 					+ "PRIMARY KEY (id)                                                 \n" + ");");
@@ -98,8 +99,8 @@ public class Banco {
 				comandoSql.execute("INSERT INTO contador (id,ContTotal, ContNao, ContDoc, ContSeq, ContErro)       \n"
 						+ "VALUES (1997,0,0,0,0,0);");
 				comandoSql.execute(
-						"INSERT INTO configuracao (id,TriarAntigo, TipoTriagem, JuntManual, LaudoPericial, PeticaoInicial, Login, Senha)  \n"
-								+ "VALUES (1997,'30','COM','true','false','true','','');");
+						"INSERT INTO configuracao (id,TriarAntigo, TipoTriagem, JuntManual, LaudoPericial, PeticaoInicial,Concatenacao, Login, Senha)  \n"
+								+ "VALUES (1997,'30','COM','true','false','true','false', '','');");
 			}
 			
 //			stmt = connection.prepareStatement("SELECT * FROM usuarios");
@@ -281,12 +282,12 @@ public class Banco {
 	}
 
 	//Altera o valor da unica linha da coluna LaudoPericial na tabela CONFIG para alterar o processo de Triagem
-	public void salvarEspecificas(boolean laudoPericial, boolean peticaoInicial) {
+	public void salvarEspecificas(boolean laudoPericial, boolean peticaoInicial, boolean concatenacao) {
 		try {
 			Connection connection = DriverManager.getConnection("jdbc:sqlite:BancoEtiquetasMark.db");
 			Statement comandoSql = connection.createStatement();
 			comandoSql.execute("UPDATE configuracao SET" + " LaudoPericial = '" + laudoPericial + "'   \n"
-					+ ", PeticaoInicial = '" + peticaoInicial + "' \n" + " WHERE id = 1997;");
+					+ ", PeticaoInicial = '" + peticaoInicial + "' \n" + ", Concatenacao = '" + concatenacao + "'\n" + " WHERE id = 1997;");
 			//Desconecta com o banco de dados, garantindo assim a integridade do dados
 			connection.close();
 		} catch (SQLException erro) {
@@ -365,6 +366,7 @@ public class Banco {
 			boolean JuntManual;
 			boolean LaudoPericial;
 			boolean PeticaoInicial;
+			boolean Concatenacao;
 
 			Connection connection = DriverManager.getConnection("jdbc:sqlite:BancoEtiquetasMark.db");
 			PreparedStatement stmt = connection.prepareStatement("SELECT * FROM configuracao WHERE id = 1997");
@@ -395,11 +397,20 @@ public class Banco {
 					PeticaoInicial = true;
 				}
 
+				String ConcatenacaoString = resultadoBanco.getString("Concatenacao");
+				if (ConcatenacaoString.contains("false")) {
+					Concatenacao = false;
+				} else {
+					Concatenacao = true;
+				}
+
+
 				config.setIntervaloDias(TriarAntigo);
 				config.setTipoTriagem(TipoTriagemLocal);
 				config.setJuntManual(JuntManual);
 				config.setLaudoPericial(LaudoPericial);
 				config.setPeticaoInicial(PeticaoInicial);
+				config.setConcatenacao(Concatenacao);
 			}
 			connection.close();
 		} catch (Exception erro) {

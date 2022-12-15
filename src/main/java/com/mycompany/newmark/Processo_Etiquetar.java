@@ -16,7 +16,7 @@ import com.mycompany.newmark.system.Sistema;
 public class Processo_Etiquetar {
 
 
-	public void etiquetar(WebDriver driver, WebDriverWait wait, Chaves_Resultado resultado)
+	public void etiquetar(WebDriver driver, WebDriverWait wait, Chaves_Resultado resultado, Chaves_Configuracao configuracao)
 			throws InterruptedException {
 
 		String etiqueta = driver.findElement(By.xpath("/html/body/div[4]/div[1]/div[2]/div/div[2]/div/div[4]/div/table/tbody/tr/td[9]/div")).getText();
@@ -49,10 +49,16 @@ public class Processo_Etiquetar {
 		if (resultado.getEtiqueta().equals("")){
 			resultado.setEtiqueta("NÃO FOI POSSÍVEL LOCALIZAR FRASE CHAVE ATUALIZADA");
 		}
-//			driver.findElement(By.xpath("//fieldset[5]/div/span/div/table[4]/tbody/tr/td[2]/input")).clear();
+			driver.findElement(By.xpath("//fieldset[5]/div/span/div/table[4]/tbody/tr/td[2]/input")).clear();
 			driver.findElement(By.xpath("//div/div/span/div/table/tbody/tr/td[2]/textarea")).clear();
-			driver.findElement(By.xpath("//fieldset[5]/div/span/div/table[4]/tbody/tr/td[2]/input"))
-					.sendKeys(etiqueta + " / " + resultado.getEtiqueta());
+			if (configuracao.isConcatenacao()){
+				driver.findElement(By.xpath("//fieldset[5]/div/span/div/table[4]/tbody/tr/td[2]/input"))
+						.sendKeys(etiqueta +"/"+ resultado.getEtiqueta());
+			} else {
+				driver.findElement(By.xpath("//fieldset[5]/div/span/div/table[4]/tbody/tr/td[2]/input"))
+						.sendKeys(resultado.getEtiqueta());
+			}
+
 		if(Chaves_Resultado.getSeqPeticao() != null) {
 
 			driver.findElement(By.xpath("//div/div/span/div/table/tbody/tr/td[2]/textarea"))

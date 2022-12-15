@@ -204,6 +204,33 @@
                         </RadioButton>
                      </children>
                   </VBox>
+                  <Label layoutX="40.0" layoutY="236.0" text="Concatenação de etiqueta" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="TOP_LEFT" layoutX="40.0" layoutY="271.0" prefHeight="62.0" prefWidth="370.0" text="Com está opção ativada o Mark incrementará o conteúdo da etiqueta do Sapiens ao invéis de sobreescrevê-lo" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <VBox layoutX="40.0" layoutY="325.0" prefHeight="65.0" prefWidth="150.0" spacing="15.0">
+                     <children>
+                        <RadioButton fx:id="desativadoConcatenacao" mnemonicParsing="false" selected="true" text="Desativado" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="grupoPericial11" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="ativadoConcatenacao" mnemonicParsing="false" text="Ativado" textFill="WHITE" toggleGroup="$grupoPericial11">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </RadioButton>
+                     </children>
+                  </VBox>
                </children>
             </AnchorPane>
          </content>
